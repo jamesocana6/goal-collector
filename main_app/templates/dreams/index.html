@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+    <h1>All dreams will be here</h1>
+    {% for dream in dreams %}
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ dream.name }}</span>
+            <p>Description: {{ dream.description }}</p>
+            <p>Steps: {{ dream.steps }}</p>
+            <p>Timeline: {{ dream.timeline }}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

@@ -1,15 +1,11 @@
 {% extends "base.html" %} {% block content %}
-    <h1>All dreams will be here</h1>
-    {% for dream in dreams %}
+    <h1>{{ dream.name }}</h1>
     <div class="card">
-        <a href="{% url 'detail' dream.id %}">
             <div class="card-content">
                 <span class="card-title">{{ dream.name }}</span>
                 <p>Description: {{ dream.description }}</p>
                 <p>Steps: {{ dream.steps }}</p>
                 <p>Timeline: {{ dream.timeline }} months</p>
             </div>
-        </a>
     </div>
-    {% endfor %}
 {% endblock %}

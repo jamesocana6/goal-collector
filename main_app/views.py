@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from .models import Dream
+from django.views.generic.edit import CreateView
 
 def home(request):
     return render(request, "home.html")
@@ -6,17 +8,14 @@ def home(request):
 def about(request):
     return render(request, "about.html")
 
-class Dream: 
-    def __init__(self, name, description, steps, timeline = float("inf")): 
-        self.name = name
-        self.description = description
-        self.steps = steps
-        self.timeline = timeline
-
-dreams = [
-    Dream("Get a job", "get a job after bootcamp", "apply to at least 5 positions everyday", 3),
-    Dream("Graduate bootcamp", "2 more projects!", "go to class, do your work", 1),
-]
-
 def dreams_index(request):
+    dreams = Dream.objects.all()
     return render(request, "dreams/index.html", {"dreams": dreams})
+
+def dreams_detail(request, dream_id):
+    dream = Dream.objects.get(id = dream_id)
+    return render(request, "dreams/detail.html", {"dream": dream})
+
+class DreamCreate(CreateView):
+    model = Dream
+    fields = "__all__"

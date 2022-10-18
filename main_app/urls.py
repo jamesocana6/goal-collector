@@ -7,4 +7,6 @@ urlpatterns = [
     path("dreams/", views.dreams_index, name="index"),
     path("dreams/<int:dream_id>", views.dreams_detail, name="detail"),
     path("dreams/create", views.DreamCreate.as_view(), name="dreams_create"),
+    path("dreams/update/<int:pk>", views.DreamUpdate.as_view(), name="dreams_update"),
+    path("dreams/delete/<int:pk>", views.DreamDelete.as_view(), name="dreams_delete"),
 ]

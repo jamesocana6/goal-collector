@@ -7,5 +7,9 @@
                 <p>Steps: {{ dream.steps }}</p>
                 <p>Timeline: {{ dream.timeline }} months</p>
             </div>
+            <div class="card-action">
+                <a href="{% url 'dreams_update' dream.id %}">Edit</a>
+                <a href="{% url 'dreams_delete' dream.id %}">Delete</a>
+              </div>
     </div>
 {% endblock %}

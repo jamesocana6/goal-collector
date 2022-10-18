@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Dream
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 def home(request):
     return render(request, "home.html")
@@ -19,3 +19,12 @@ def dreams_detail(request, dream_id):
 class DreamCreate(CreateView):
     model = Dream
     fields = "__all__"
+
+class DreamUpdate(UpdateView):
+    model = Dream
+    fields = "__all__"
+
+
+class DreamDelete(DeleteView):
+    model = Dream
+    success_url = "/dreams/"

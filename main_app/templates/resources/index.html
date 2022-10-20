@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>Resources</h1>
+
+{% for resource in object_list %}
+<div class="card">
+    <a href="{% url 'resources_detail' resource.id %}">
+        <div class="card-content">
+            <h3>{{ resource.name }}</h3>
+            <p>{{ resource.url }}</p>
+            <p>{{ resource.description }}</p>
+        </div>
+    </a>
+</div>
+{% endfor %}
+
+{% endblock %}

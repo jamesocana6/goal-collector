@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>{{ resource.name }}</h1>
+
+<div class="card">
+        <div class="card-content">
+            <h3>{{ resource.name }}</h3>
+            {% if "http://" in resource.url or "https://" in resource.url %} 
+            <a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+            {% else %}
+            <a href="http://{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+            {% endif %}
+            <p>{{ resource.description }}</p>        
+        </div>
+        <div class="card-action">
+            <a href="{% url 'resources_update' resource.id %}">Edit</a>
+            <a href="{% url 'resources_delete' resource.id %}">Delete</a>
+        </div>
+</div>
+
+
+{% endblock %}

@@ -1,49 +1,98 @@
 {% extends "base.html" %} {% block content %}
-    <h1>{{ dream.name }}</h1>
-    <div class="row">
-        <div class="col s6">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">{{ dream.name }}</span>
-                    <p>Description: {{ dream.description }}</p>
-                    <p>Timeline: {{ dream.timeline }} months</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'dreams_update' dream.id %}">Edit</a>
-                    <a href="{% url 'dreams_delete' dream.id %}">Delete</a>
-                  </div>
+<h1>{{ dream.name }}</h1>
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ dream.name }}</span>
+                <p>Description: {{ dream.description }}</p>
+                <p>Timeline: {{ dream.timeline }} months</p>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'dreams_update' dream.id %}">Edit</a>
+                <a href="{% url 'dreams_delete' dream.id %}">Delete</a>
             </div>
         </div>
+    </div>
+    <div class="col s6">
+        <form action="{% url 'add_step' dream.id %}" method="POST">
+            {% csrf_token %} {{ step_form.as_p }}
+            <input type="submit" class="btn" value="Add Step">
+        </form>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for step in dream.step_set.all %}
+                <tr>
+                    <td>
+                        {{ step.name }}
+                    </td>
+                    <td>
+                        {{ step.description }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <hr />
         <div class="col s6">
-            <form action="{% url 'add_step' dream.id %}" method="POST">
-                {% csrf_token %} {{ step_form.as_p }}
-                <input type="submit" class="btn" value="Add Step">
-            </form>
-            <table class="striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Description
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for step in dream.step_set.all %}
-                    <tr>
-                        <td>
-                            {{ step.name }}
-                        </td>
-                        <td>
-                            {{ step.description }}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <h5>Resources that can help achieve the goal</h5>
+            {% if dream.resources.count %} {% for resource in dream.resources.all %}
+            <div class="card">
+                <div class="card-content">
+                    {{ resource.name }} <br/>
+                    {% if "http://" in resource.url or "https://" in resource.url %}
+                    <a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+                    {% else %}
+                    <a href="http://{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+                    {% endif %}
+                    <p>{{ resource.description }}</p>
+                </div>
+            </div>
+            {% endfor %} {% else %}
+            No resources :(
+            {% endif %}
+
         </div>
 
+        <div class="col s6">
+            <h3>Available Resources</h3>
+            {% if resources.count %}
+            {% for resource in resources.all %}
+            <div class="card">
+                <div class="card-content">
+                    {{ resource.name }} <br/>
+                    {% if "http://" in resource.url or "https://" in resource.url %}
+                    <a href="{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+                    {% else %}
+                    <a href="http://{{ resource.url }}" target="_blank">{{ resource.url }}</a>
+                    {% endif %}
+                    <p>{{ resource.description }}</p>
+                </div>
+                <div class="card-action">
+                    <form action="{% url 'assoc_resource' dream.id resource.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Add</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            More resources to come!
+            {% endif %}
+        </div>
+    
     </div>
+</div>
 {% endblock %}

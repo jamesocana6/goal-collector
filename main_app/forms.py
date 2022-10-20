@@ -4,4 +4,4 @@ from .models import Step
 class StepForm(ModelForm):
     class Meta:
         model = Step
-        fields = "__all__"
+        fields = ["name", "description"]
